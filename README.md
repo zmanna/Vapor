@@ -29,6 +29,12 @@ This was a collaborative project. I was part of the team and contributed to the 
 | `python_client/` | Supporting Python client experiment. |
 | `images/` | Launcher image assets. |
 
+## Documentation
+
+- `docs/ARCHITECTURE.md`: launcher structure, state model, and integration model.
+- `docs/RUNBOOK.md`: setup, run commands, dependencies, and known issues.
+- `docs/CONTRIBUTIONS.md`: accurate team-contribution framing for portfolio use.
+
 ---
 
 ### Database API
