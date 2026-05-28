@@ -1,45 +1,100 @@
 # Runbook
 
+This runbook contains the short operational commands for building and running Vapor. For a fuller reproduction guide, see `docs/REPRODUCIBILITY.md`.
+
 ## Prerequisites
 
-- Rust toolchain
-- Cargo
-- Network access if testing live API-backed features
+- Rust toolchain with Cargo
+- Network access for API-backed features
+- Optional chat server on `127.0.0.1:8080`
+- Optional connected game executables in the runtime `library` directory
 
-Install Rust with `rustup` if needed:
+Install or select stable Rust:
 
 ```sh
 rustup default stable
 ```
 
-## Local Run
+## Local Development Commands
 
-```sh
-cargo run
-```
-
-## Build Check
+Check compilation:
 
 ```sh
 cargo check
 ```
 
-## Known Runtime Dependencies
+Run the desktop app:
 
-Some features expect related services or repositories:
+```sh
+cargo run
+```
 
-| Dependency | Purpose |
+Format source:
+
+```sh
+cargo fmt
+```
+
+Run lints:
+
+```sh
+cargo clippy --all-targets --all-features
+```
+
+Run tests:
+
+```sh
+cargo test
+```
+
+## Runtime Dependencies
+
+| Dependency | Purpose | Required for startup |
+|---|---|---|
+| Rust/Cargo | Build and run the launcher | Yes |
+| Backend API | Login, signup, users, friends, account settings, leaderboards | No, but related features fail without it |
+| Chat server | Chat panel messages | No; unavailable chat is shown in the UI |
+| Game executables | Launchable games | No |
+
+## Environment Variables
+
+| Variable | Default |
 |---|---|
-| database API | login, user, score, friends, and leaderboard requests |
-| Word Unscrambler | connected game |
-| Sudoku app | connected game |
-| Rapid Math | connected game |
+| `VAPOR_API_BASE_URL` | hosted Azure API URL |
+| `VAPOR_CHAT_SERVER_ADDR` | `127.0.0.1:8080` |
+| `VAPOR_LIBRARY_PATH` | `library` next to the Vapor executable |
+
+## Connected Repositories
+
+| Repository | Role |
+|---|---|
+| `https://github.com/willbtty/rust_api.git` | Backend database/API service |
+| `https://github.com/zmanna/Word_Unscrambler.git` | Word game |
+| `https://github.com/yung00se/Sudoku_app.git` | Sudoku game |
+| `https://github.com/zmanna/rapid-math.git` | Rapid Math game |
+
+## Runtime Library Directory
+
+Vapor scans for games in:
+
+```text
+<directory containing Vapor executable>/library
+```
+
+Typical development path:
+
+```text
+target/debug/library
+```
+
+Typical release path:
+
+```text
+target/release/library
+```
 
 ## Known Issues
 
-- The API base URL is hardcoded in `src/data_base_api.rs`.
-- Some account operations pass credentials in query parameters.
-- The launcher title in `src/main.rs` still says `Word Unscrambler`.
-- There is no automated test suite in this fork.
-- `cargo check` could not be run in the cleanup environment because no default Rust toolchain was configured.
-
+- Some account operations pass credentials through query strings.
+- Backend, chat server, and connected game implementations are external to this repository.
+- Test coverage is intentionally small and does not cover live backend workflows.

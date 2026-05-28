@@ -1,6 +1,7 @@
 use super::pages::game_hub::build_library;
 use crate::{data_base_api::UserEntry, pages::game_hub::GameIcon};
 
+/// UI-facing account state for the active launcher user.
 pub struct User {
     pub name: String,
     pub password: String,
@@ -11,8 +12,8 @@ pub struct User {
     pub current_page: String,
 }
 
-impl Default for User{
-    fn default() -> Self{
+impl Default for User {
+    fn default() -> Self {
         Self {
             name: "".into(),
             password: "".into(),
@@ -26,6 +27,7 @@ impl Default for User{
 }
 
 impl User {
+    /// Creates a user state object and initializes the local game library view.
     pub fn new(name: String, password: String, id: i32) -> Self {
         Self {
             name,
@@ -36,5 +38,5 @@ impl User {
             leaderboard: Vec::new(),
             current_page: "land".to_string(),
         }
-    } 
+    }
 }
